@@ -1,9 +1,12 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors"); // ← Add this
 
 const app = express();
+
 app.use(express.json());
+app.use(cors()); // ← Add this
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
@@ -110,7 +113,9 @@ app.get("/api/marks", async (req, res) => {
   }
 });
 
-app.listen(9002, () => {
-  console.log("🚀 Server running on port 9002");
-  console.log("📝 Ready to store whatever user enters!");
+// Use Render's PORT
+const PORT = process.env.PORT || 7000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
