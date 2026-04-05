@@ -1,0 +1,146 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  padding: 20px;
+}
+
+.login-box {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  padding: 40px;
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.login-header h2 {
+  color: #1e3a8a;
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.login-header p {
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-group i {
+  position: absolute;
+  left: 12px;
+  color: #1e3a8a;
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 14px 12px 14px 45px;
+  border: 2px solid #1e3a8a;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  color: #000000;
+  font-weight: 500;
+  background-color: #ffffff;
+}
+
+.input-group input:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.input-group input::placeholder {
+  color: white;
+  font-weight: 500;
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 16px;
+  text-align: center;
+  margin-top: -10px;
+  font-weight: 500;
+}
+
+.login-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.login-button:hover {
+  background: #2563eb;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.login-button:active {
+  background: #1d4ed8;
+  transform: translateY(0);
+}
+
+.login-footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.login-footer a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 5px;
+}
+
+.login-footer a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* Add Font Awesome for icons */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css'); 
