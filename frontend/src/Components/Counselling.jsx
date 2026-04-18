@@ -18,7 +18,7 @@ function Counselling() {
     setError('');
     try {
       const response = await fetch(
-        `https://my-project-uj8a.onrender.com/api/counselling?year=${selectedYear}&semester=${selectedSemester}&ia=${selectedIA}`
+        `https://my-project-1-g9ko.onrender.com/api/counselling?year=${selectedYear}&semester=${selectedSemester}&ia=${selectedIA}`
       );
       const data = await response.json();
       if (response.ok) {
@@ -42,7 +42,7 @@ function Counselling() {
   // Function to schedule counselling
   const handleScheduleCounselling = async (student) => {
     try {
-      const response = await fetch('https://my-project-uj8a.onrender.com/api/counselling', {
+      const response = await fetch('https://my-project-1-g9ko.onrender.com/api/counselling', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

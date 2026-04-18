@@ -7,34 +7,85 @@ function Loginpage() {
   const [mentorId, setMentorId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [showSignup, setShowSignup] = useState(false);
+  const [signupMentorId, setSignupMentorId] = useState('');
+  const [signupUsername, setSignupUsername] = useState('');
+  const [signupPassword, setSignupPassword] = useState('');
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
 
-    // Check if fields are empty
-    if (!mentorId.trim() || !password.trim()) {
-      setError('Please fill all fields');
-      return;
-    }
+    try {
+      const response = await fetch('http://localhost:7048/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mentorId: mentorId,
+          password: password
+        })
+      });
 
-    // Validate mentor ID and password
-    if (mentorId === '101' && password === 'mentor1') {
-      localStorage.setItem('mentorId', '101');
-      navigate('/home');
-    } else if (mentorId === '102' && password === 'mentor2') {
-      localStorage.setItem('mentorId', '102');
-      navigate('/home');
-    } else if (mentorId === '103' && password === 'mentor3') {
-      localStorage.setItem('mentorId', '103');
-      navigate('/home');
-    } else {
-      // Check if ID is valid
-      if (!['101', '102', '103'].includes(mentorId)) {
-        setError('Please enter correct ID');
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store JWT token and mentor info
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('mentorInfo', JSON.stringify(data.mentor));
+        localStorage.setItem('mentorId', data.mentor.mentorId);
+        navigate('/mentees');
       } else {
-        setError('Please enter correct password');
+        setError(data.message || 'Login failed');
       }
+    } catch (error) {
+      setError('Network error. Please try again.');
+      console.error('Login error:', error);
+    }
+  };
+
+  const handleSignup = async () => {
+    try {
+      if (!signupMentorId || !signupPassword) {
+        setError('Please fill all fields');
+        return;
+      }
+
+      const response = await fetch('http://localhost:7048/api/mentors', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          mentorId: signupMentorId,
+          name: signupUsername,
+          email: `mentor${signupMentorId}@college.edu`,
+          department: 'Computer Science',
+          password: signupPassword
+        })
+      });
+
+      if (response.ok) {
+        alert('Registration successful! Please login with your credentials.');
+        setShowSignup(false);
+        setSignupMentorId('');
+        setSignupUsername('');
+        setSignupPassword('');
+        setError('');
+      } else {
+        const data = await response.json();
+        if (data.error.includes('Invalid mentor ID')) {
+          setError('❌ Invalid mentor ID. This mentor ID is not approved for registration.');
+        } else if (data.error.includes('already exists')) {
+          setError('❌ Mentor ID already registered. Please use a different ID.');
+        } else {
+          setError('❌ ' + (data.error || 'Registration failed'));
+        }
+      }
+    } catch (error) {
+      setError('Network error. Please try again.');
+      console.error('Signup error:', error);
     }
   };
 
@@ -51,7 +102,7 @@ function Loginpage() {
             <label>Mentor ID</label>
             <input
               type="text"
-              placeholder="Enter your ID"
+              placeholder="Enter your mentor ID"
               className="input-field"
               value={mentorId}
               onChange={(e) => setMentorId(e.target.value)}
@@ -80,6 +131,63 @@ function Loginpage() {
       </div>
 
       <p className="footer-note">For authorized mentors only.</p>
+
+      {/* Sign Up Section */}
+      <div className="signup-section">
+        <p>Don't have an account?</p>
+        <button className="signup-button" onClick={() => setShowSignup(true)}>
+          Sign Up
+        </button>
+      </div>
+
+      {/* Sign Up Form */}
+      {showSignup && (
+        <div className="signup-form">
+          <h3>Mentor Registration</h3>
+          <div className="form-group">
+            <label>Mentor ID:</label>
+            <input
+              type="text"
+              value={signupMentorId}
+              onChange={(e) => setSignupMentorId(e.target.value)}
+              placeholder="Enter your Mentor ID"
+              className="input-field"
+            />
+            <small className="helper-text">
+             
+            </small>
+          </div>
+          <div className="form-group">
+            <label>Username:</label>
+            <input
+              type="text"
+              value={signupUsername}
+              onChange={(e) => setSignupUsername(e.target.value)}
+              placeholder="Enter your username"
+              className="input-field"
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Password:</label>
+            <input
+              type="password"
+              value={signupPassword}
+              onChange={(e) => setSignupPassword(e.target.value)}
+              placeholder="Enter your password"
+              className="input-field"
+            />
+          </div>
+          <div className="form-actions">
+            <button className="signup-submit-button" onClick={handleSignup}>
+              Register
+            </button>
+            <button className="cancel-button" onClick={() => setShowSignup(false)}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

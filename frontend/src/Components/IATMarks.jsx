@@ -10,7 +10,7 @@ function IATMarks() {
 
   useEffect(() => {
     // Fetch subjects when component mounts
-    fetch('https://my-project-uj8a.onrender.com/api/subjects')
+    fetch('https://my-project-1-g9ko.onrender.com/api/subjects')
       .then(response => response.json())
       .then(data => setSubjects(data))
       .catch(error => console.error('Error fetching subjects:', error));
@@ -22,7 +22,7 @@ function IATMarks() {
     const studentName = "Student Name"; // You might want to get this from your user data
 
     try {
-      const response = await fetch('https://my-project-uj8a.onrender.com/api/marks', {
+      const response = await fetch('https://my-project-1-g9ko.onrender.com/api/marks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function IATMarks() {
   const handleDownload = async () => {
     const studentId = localStorage.getItem('mentorId');
     try {
-      const response = await fetch(`https://my-project-uj8a.onrender.com/api/download-report/${studentId}`);
+      const response = await fetch(`https://my-project-1-g9ko.onrender.com/api/download-report/${studentId}`);
       const data = await response.json();
       setMessage(`Report downloaded as ${data.filename}`);
     } catch (error) {
